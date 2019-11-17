@@ -64,23 +64,14 @@ func (b *BusExt) Init(app *gobay.Application) error {
 	if b.NS != "" {
 		b.config = b.config.Sub(b.NS)
 	}
-<<<<<<< HEAD
 	setDefaultConfig(b.config)
-=======
->>>>>>> add bus extension
 	b.consumers = make(map[string]Handler)
 	b.consumeChannels = make(map[string]<-chan amqp.Delivery)
 	b.prefetch = b.config.GetInt("prefetch")
 	b.publishRetry = b.config.GetInt("publish_retry")
-<<<<<<< HEAD
 	b.resendDelay = b.config.GetDuration("resend_delay")
 	b.reconnectDelay = b.config.GetDuration("reconnect_delay")
 	b.reinitDelay = b.config.GetDuration("reinit_delay")
-=======
-	b.resendDelay = b.config.GetDuration("resend_delay") * time.Second
-	b.reconnectDelay = b.config.GetDuration("reconnect_delay") * time.Second
-	b.reinitDelay = b.config.GetDuration("reInitDelay") * time.Second
->>>>>>> add bus extension
 	brokerUrl := b.config.GetString("broker_url")
 	go b.handleReconnect(brokerUrl)
 	for {
@@ -208,10 +199,10 @@ func (b *BusExt) Consume() error {
 					deliveryAck(delivery)
 					log.Debugf("Receive delivery: %+v from queue: %v",
 						delivery, chName)
-				case delivery := <-ch:
+				case delivery := <-channel:
 					deliveryAck(delivery)
 					log.Debugf("Receive delivery: %+v from queue: %v",
-						delivery, name)
+						delivery, chName)
 					var handler Handler
 					var ok bool
 					if delivery.Headers == nil {
