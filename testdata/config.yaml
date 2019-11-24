@@ -14,10 +14,19 @@ bus: &bus
     - exchange: sbay-exchange
       queue: test
       binding_key: buses.oc.post_order_paid
+
+task: &task
+  broker: "redis://127.0.0.1:6379/8"
+  default_queue: "gobay.task"
+  result_backend: "redis://127.0.0.1:6379/8"
+  results_expire_in: 1
+
 defaults: &defaults
   db_driver: sqlite3
   db_url: ':memory:'
   short_url_alphabet: 'mn6j2c4rv8bpygw95z7hsdaetxuk3fq'
+  task:
+    <<: *task
   bus:
     <<: *bus
   sentry:

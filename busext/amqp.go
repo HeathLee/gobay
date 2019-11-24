@@ -199,10 +199,6 @@ func (b *BusExt) Consume() error {
 					deliveryAck(delivery)
 					log.Debugf("Receive delivery: %+v from queue: %v",
 						delivery, chName)
-				case delivery := <-channel:
-					deliveryAck(delivery)
-					log.Debugf("Receive delivery: %+v from queue: %v",
-						delivery, chName)
 					var handler Handler
 					var ok bool
 					if delivery.Headers == nil {
